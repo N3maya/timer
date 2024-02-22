@@ -1,0 +1,28 @@
+    private void startBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        txtArea.setText(""); // empties the text area
+        doneIcon.setVisible(false); // hides the smiley "done" icon
+        startAnimation.setVisible(true); // shows the hourglass "running" animation
+        startBtn.setText("Running. . ."); // changes the start button text 
+        startBtn.setBackground(Color.decode("#FFFCCC")); // changes the start button bg color
+
+        startBtn.setEnabled(false); // disables the button so the user can't press it while running
+        Thread thread = new Thread(() -> {
+            for (int i = 0; i < 10; i++) { // padagdag na lang comments william di ako sure sa ginagawa ng mga to
+                final int currentNumber = i + 1;
+                try {
+                    SwingUtilities.invokeLater(() -> {
+                        txtArea.append("       " + currentNumber + "\n");
+                    });
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    System.err.println("Error in Thread.sleep(): " + e);
+                }
+            }
+            startBtn.setEnabled(true); // enables the button so the user can try again
+            
+            startAnimation.setVisible(false); // hides the hourglass "running" animation
+            doneIcon.setVisible(true); // shows the smiley "done" icon
+            startBtn.setText("Done! Try again?"); // changes the start button text
+        });
+        thread.start();
+    }
